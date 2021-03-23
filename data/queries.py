@@ -7,7 +7,7 @@ def get_shows():
 
 
 def most_rated_show():
-    return data_manager.execute_select("""SELECT shows.id, shows.title, shows.year as year, shows.runtime as runtime, shows.trailer as trailer,shows.rating as rating, array_agg(genres.name) as genres
+    return data_manager.execute_select("""SELECT shows.id, shows.title, shows.homepage, shows.year as year, shows.runtime as runtime, shows.trailer as trailer,shows.rating as rating, array_agg(genres.name) as genres
                 FROM shows
                 LEFT JOIN show_genres on shows.id = show_genres.show_id
                 INNER JOIN genres on show_genres.genre_id = genres.id
