@@ -9,6 +9,11 @@ def index():
     shows = queries.get_shows()
     return render_template('index.html', shows=shows)
 
+@app.route('/shows/most-rated')
+def most_rated_shows():
+    most_rated = queries.most_rated_show()
+    return render_template('most-rated.html', most_rated=most_rated)
+
 
 @app.route('/design')
 def design():

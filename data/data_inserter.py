@@ -23,7 +23,7 @@ def main():
     init_db.create_schema()
     insert_genres()
     insert_shows(limit=20, max_show_count=100)
-    # print('Season data inserted')
+    print('Season data inserted')
 
 
 def insert_genres():
