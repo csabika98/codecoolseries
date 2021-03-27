@@ -16,7 +16,6 @@ def most_rated_shows():
 
 
 @app.route('/tv-show/<int:id>')
-@app.route('/tv-show/<int:id>/<season>')
 def showinfos(id):
     show_details = queries.overview(id)
     show_seasons = queries.seasonoverview(id)
