@@ -15,6 +15,13 @@ def most_rated_shows():
     return render_template('most-rated.html', most_rated=most_rated)
 
 
+@app.route('/tv-show/<int:id>')
+@app.route('/tv-show/<int:id>/<season>')
+def showinfos(id):
+    show_details = queries.overview(id)
+    show_seasons = queries.seasonoverview(id)
+    return render_template('tv-shows.html', show_details=show_details, show_seasons=show_seasons)
+
 @app.route('/design')
 def design():
     return render_template('design.html')

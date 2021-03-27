@@ -58,14 +58,14 @@
                 </tr>
                 {%for mr in most_rated%}
                 <tr>
-                <td><a href="{{ '/shows/' + (mr.id | string) }}">{{ mr.title }}</a></th>
+                <td><a href="{{ '/tv-show/' + (mr.id | string) }}">{{ mr.title }}</a></th>
                   <td>{{mr.year}}</td>
                   <td>{{mr.runtime}}</td>
                   <td><a href="{{(mr.trailer | string) }}">Link to the youtube video</a></td>
                   <td>{{mr.rating}}</td>
                   <td>{{mr.genres|join(',') }}</td>
                   <td><a href="{{(mr.homepage | string) }}">Link to the homepage</a></td>
-                </tr> 
+                </tr>
                 {%endfor%}
            </table>        
             </ul>
