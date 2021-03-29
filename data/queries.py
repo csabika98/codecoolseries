@@ -1,8 +1,5 @@
 from data import data_manager
-import psycopg2
-from psycopg2.extensions import AsIs
-import json
-from data import data_manager
+
 
 def get_shows():
     return data_manager.execute_select('SELECT id, title FROM shows;')
@@ -22,3 +19,21 @@ def overview(show_id:str):
 
 def seasonoverview(show_id:str):
     return data_manager.execute_select("SELECT id, title, overview FROM seasons WHERE show_id = %s", (show_id,))
+
+def register(username:str, email:str, password:str, created_on:str) -> list:
+    return data_manager.modify_database("INSERT INTO accounts(username,email,password,createdon) VALUES(%s,%s,%s,%s)", (username, email,password,created_on))
+
+def get_email_and_password(email:str, password:str):
+    return data_manager.execute_select("SELECT email, password FROM accounts WHERE email=%s AND password=%s",(email, password))
+
+def rewrite_password(password:str, email:str) ->list:
+    return data_manager.modify_database("UPDATE accounts SET password =%s WHERE email=%s",(password,email))
+
+def login_user(email):
+    return data_manager.execute_select("SELECT email, password FROM accounts WHERE (email=%(email)s);",variables={'email':email})
+
+def list_emails():
+    return data_manager.execute_select("SELECT email from accounts")
+
+def list_usernames():
+    return data_manager.execute_select("SELECT username from accounts")

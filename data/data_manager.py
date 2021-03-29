@@ -26,6 +26,26 @@ def establish_connection(connection_data=None):
     else:
         return conn
 
+def modify_database(query, tuple_parameters=None,connection_data=None):
+    """Connects to the database then modifies the data
+    without fetching anything.
+    """
+    if connection_data is None:
+        connection_data = get_connection_data()
+    try:
+        connect_str = "dbname={} user={} host={} password={}".format(connection_data['dbname'],
+                                                                     connection_data['user'],
+                                                                     connection_data['host'],
+                                                                     connection_data['password'])
+        conn = psycopg2.connect(connect_str)
+        conn.autocommit = True
+        cursor = conn.cursor()
+        cursor.execute(query, tuple_parameters)
+
+    except psycopg2.DatabaseError as exception:
+        print(exception)
+
+
 
 def get_connection_data(db_name=None):
     """

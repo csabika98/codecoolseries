@@ -33,15 +33,33 @@
 
 <body>
 <div id="body-wrapper">
+    {% with messages = get_flashed_messages() %}
+    {% if messages == 'Login Failed: Wrong email or password' %}
+    <div class="d-flex justify-content-evenly" id="alert">
+        <div class="alert alert-danger" role="alert">{{messages[0]}}</div>
+    </div>
+    {%elif messages %}
+    <div class="d-flex justify-content-evenly" id="alert">
+        <div class="alert alert-success" role="alert">{{messages[0]}}</div>
+    </div>
+    {% endif %}
+    {% endwith %}
     <header class="clearfix">
         <img id="header-logo" src="{{ url_for('static', filename='assets/codecool-logo.png') }}" alt="Codecool Logo">
         <span id="header-title" class="title">
                         Codecool Series DB
                     </span>
         <div id="header-auth">
-            <button onclick="window.location.href='shows/most-rated'" type="button">Most rated shows</button>
-            <button type="button" id="bt_register">Register</button>
-            <button type="button" id="bt_login">Login</button>
+            {%if session["email"] is defined%}
+
+            <div style="text-align:center;">{{"Welcome!  " + session["email"]}}
+                <button onclick="window.location.href='/logout'" style="float: right;" type="button">Logout</button>
+                <button onclick="window.location.href='shows/most-rated'" style="float: right;" type="button">Most rated shows</button>
+            </div>
+            {%else%}
+            <button onclick="window.location.href='/register'"  id="bt_register">Register</button>
+            <div><form method="POST" action="/login"><label for="email">E-mail</label><br><input type="email" id="email" name="email"><br><label for="password">Password</label><br><input type="password" id="password" name="password"><br><input type="submit" value="Login"><br></form></div>
+        {%endif%}
         </div>
     </header>
     <section>
