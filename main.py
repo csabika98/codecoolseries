@@ -2,6 +2,7 @@ from flask import Flask, render_template, url_for, request, redirect, session, f
 from data import queries
 import datetime
 import bcrypt
+from data import validation as validate
 
 
 app = Flask('codecool_series')
@@ -59,35 +60,25 @@ def logout():
 
 @app.route('/register', methods=["GET","POST"])
 def register_new_user():
-    users = queries.list_emails()
-    nameuser = queries.list_usernames()
+    emails = validate.check_for_email()
+    user = validate.check_for_username()
     if request.method == "POST":
         username = request.form["username"]
         email = request.form["email"]
         password = request.form["password"]
         created_on = datetime.datetime.today().strftime("%d-%B-%Y %H:%M:%S") # getting back today's date with this format YYYY-MM-DD
         has_password = hash_password(password)
-        if nameuser:
-            for nameus in nameuser:
-                if request.form["username"] == nameus["username"]:
-                    error_msg_1 = "This username is already taken"
-                    flash(error_msg_1)
-                    return redirect("/register")
-                else:
-                    queries.register(username, email, has_password, created_on)
-        if users:
-            for user in users:
-                if email == user['email']:
-                    error_msg_2 = 'This email is already taken!'
-                    flash(error_msg_2)
-                    return redirect("/register")
-                else:
-                    queries.register(username, email, has_password, created_on)
-                    return redirect("/")
+        if username in user:
+            flash("This username has been taken Please choose another!")
+            return redirect("/register")
+        elif email in emails:
+            flash("This email has been taken Please choose another!")
+            return redirect("/register")
         else:
-        #new_pass = queries.rewrite_password(has_password, email) 
+            flash("Registration completed! You can log in now!")
             queries.register(username, email, has_password, created_on)
             return redirect("/")
+
     return render_template("register.html")
 
 
