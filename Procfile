@@ -1,1 +1,1 @@
-web: gunicorn {app}:{app_variable_name}
+web: gunicorn {main}:{app_variable_name}
