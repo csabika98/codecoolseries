@@ -5,7 +5,7 @@ import bcrypt
 from data import validation as validate
 
 
-app = Flask('codecool_series')
+app = Flask(__name__)
 app.secret_key = "derank123"
 
 # TOOL TO HASH PLAIN TEXT PASSWORD THANK TO THE BCRYPT!
@@ -91,11 +91,8 @@ def showinfos(id):
 @app.route('/design')
 def design():
     return render_template('design.html')
-
-
-def main():
-    app.run(debug=True)
+    
 
 
 if __name__ == '__main__':
-    main()
+    app.run(debug=True)
