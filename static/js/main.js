@@ -1,49 +1,100 @@
+let base_url = "/api/most-rated/"
+let current_page = 1
+
+
 let init = {
-    fetchshows: function(){
-        fetch('http://127.0.0.1:5000/api/most-rated/1',
+    
+    getShows:function(page=current_page){
+        let table = document.querySelector("#table_")
+        table.innerHTML = ""
         
-        { method: 'get',
-        credentials: 'same-origin',
-        node: 'cors',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(shows)
+        fetch(base_url + page)
+        .then(response=>response.json())
+        .then(data=>this.render_table(data))
+
+    },
+    render_table:function(data){
+        let table = document.querySelector("#table_")
+        for (show of data[0].json_agg){
+            let row = document.createElement("tr")
+            let title = document.createElement("a")
+            let release = document.createElement("td")
+            let runtime = document.createElement("td")
+            let rating = document.createElement("td")
+            let genres = document.createElement("td")
+            let trailer = document.createElement("td")
+            let homepage = document.createElement("td")
+            
+            let video = document.createElement("a")
+            let link_homepage = document.createElement("a")
+
+
+            trailer.append(video)
+            homepage.append(link_homepage)
+
+
+            release.textContent = show.year
+            runtime.textContent = show.runtime
+            rating.textContent = parseFloat(show.rating).toFixed(1)
+            genres.textContent = show.genres
+
+            title.setAttribute("href", show.id)
+            link_homepage.setAttribute("href",show.homepage)
+            link_homepage.textContent = "Homepage"
+            title.textContent = show.title
+
+            video.setAttribute("href", show.trailer)
+            video.textContent = "Trailer"
+
+            if(show.trailer == null){
+                trailer.removeChild(video)
+                trailer.textContent = "No URL!"
+            }
+            if(show.homepage == null){
+                homepage.removeChild(link_homepage)
+                homepage.textContent = "No URL!"
+            }
+        
+        
+            row.append(title,release,runtime,rating,genres,trailer,homepage)
+            table.append(row)
+        }
+
+
+
+    },
+    setButtons:function(){
+        $('#next_button').click(function(){
+            if (current_page<66){
+                $("#next_button").disabled=false
+                init.getShows(++current_page)
+            }else{
+                $("#next_button").disabled=true
+            }
+
+
         })
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(response){
-            let shows = response.results
-            let row = document.createElement('tr')
-            let col1 = document.createElement('td')
-            let col2 = document.createElement('td')
-            let col3 = document.createElement('td')
-            let col4 = document.createElement('td')
-            let col5 = document.createElement('td')
-            let col6 = document.createElement('td')
-            let col7 = document.createElement('td')
-            col1.innerHTML = shows.title;
-            col2.innerHTML = response.year;
-            col3.innerHTML = response.runtime;
-            col4.innerHTML = response.trailer;
-            col5.innerHTML = response.rating;
-            col6.innerHTML = response.genres;
-            col7.innerHTML = response.homepage
-            row.appendChild(col1)
-            row.appendChild(col2)
-            row.appendChild(col3)
-            row.appendChild(col4)
-            row.appendChild(col5)
-            row.appendChild(col6)
-            row.appendChild(col7)
-            document.querySelector('tbody').appendChild(row)
-        })
+        $("#prev_button").click(function(){
+            if(current_page==1){
+                $("#prev_button").disabled=true
+            }else{
+                $("#prev_button").disabled=false
+                init.getShows(--current_page)
+            }
+        }) 
+
+
+
+
+
     }
+
+
+
 }
 
+window.onload= function(){
+    init.getShows()
+    init.setButtons()
 
-
-
-
-init.fetchshows()
+}

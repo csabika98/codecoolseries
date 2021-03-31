@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request, redirect, session, flash
+from flask import Flask, render_template, url_for, request, redirect, session, flash, jsonify
 from data import queries
 import datetime
 import bcrypt
@@ -8,8 +8,17 @@ from data import validation as validate
 app = Flask(__name__)
 app.secret_key = "derank123"
 
-# TOOL TO HASH PLAIN TEXT PASSWORD THANK TO THE BCRYPT!
+#CREATE API ROUTE TO MAKE POSSIBLE THE PAGINATION!
+@app.route('/api/most-rated/<int:page>')
+def api_route(page):
+    page_number = page
+    if page == None:
+        page = 1
+    top_shows = queries.most_rated_show(page_number)
+    return jsonify(top_shows)
 
+
+# TOOL TO HASH PLAIN TEXT PASSWORD THANK TO THE BCRYPT!
 def hash_password(plain_text_password):
     hashed_bytes = bcrypt.hashpw(plain_text_password.encode('utf-8'), bcrypt.gensalt())
 
@@ -28,8 +37,7 @@ def index():
 
 @app.route('/shows/most-rated')
 def most_rated_shows():
-    most_rated = queries.most_rated_show()
-    return render_template('most-rated.html', most_rated=most_rated)
+    return render_template('most-rated.html')
 
 
 @app.route('/login', methods=["GET","POST"])
@@ -82,7 +90,7 @@ def register_new_user():
     return render_template("register.html")
 
 
-@app.route('/tv-show/<int:id>')
+@app.route('/shows/<int:id>')
 def showinfos(id):
     show_details = queries.overview(id)
     show_seasons = queries.seasonoverview(id)

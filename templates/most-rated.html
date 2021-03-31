@@ -4,7 +4,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
     <title>CsED</title>
 
     <!-- Import Montserrat font -->
@@ -41,42 +42,35 @@
         <div id="header-auth">
         </div>
     </header>
-    <section>
-        <h1 class="title text-center">SHOWS</h1>
-           <table>
-            <table>
+    <div class="card">
+        <button type="button" class="button" id="prev_button">Previous page</button>
+        <button type="button" class="button" id="next_button">Next page</button>
+        <table class="table" stlye="background-color:white;">
+            <thead>
                 <tr>
-                  <th>Title</th>
-                  <th>Year</th>
-                  <th>Runtime</th>
-                  <th>Trailer</th>
-                  <th>Rating</th>
-                  <th>Genres</th>
-                  <th>Homepage</th>
+                    <th>Title</th>
+                    <th>Release year</th>
+                    <th>Runtime</th>
+                    <th>Rating</th>
+                    <th>Genres</th>
+                    <th>Trailer</th>
+                    <th>Homepage</th>
                 </tr>
-                {%for mr in most_rated%}
-                <tr>
-                <td><a href="{{ '/tv-show/' + (mr.id | string) }}">{{ mr.title }}</a></th>
-                  <td>{{mr.year}}</td>
-                  <td>{{mr.runtime}}</td>
-                  {%if mr.trailer is not none%}
-                  <td><a href="{{(mr.trailer | string) }}">Link to the youtube video</a></td>
-                  {%else%}
-                  <td>No URL!</td>
-                  {%endif%}
-                  <td>{{'%0.2f'|format(mr.rating|float)}}</td>
-                  <td>{{mr.genres|join(',') }}</td>
-                  {%if mr.homepage is not none%}
-                  <td><a href="{{(mr.homepage | string) }}">Link to the homepage</a></td>
-                  {%else%}
-                  <td>No URL!</td>
-                  {%endif%}
-                </tr>
-                {%endfor%}
-           </table>        
-            </ul>
-        </div>
-    </section>
+            </thead>
+            <tbody id="table_">
+
+
+
+            </tbody>
+        </table>
+
+
+
+
+
+
+    </div>
+    
     <footer>
         Copyright, bla-bla
     </footer>
