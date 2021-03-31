@@ -78,7 +78,7 @@
             <ul>
                 {% for show in shows %}
                     <li>
-                        <a href="{{ '/tv-show/' + (show['id'] | string) }}">{{ show['title'] }}</a>
+                        <a href="{{ '/shows/' + (show['id'] | string) }}">{{ show['title'] }}</a>
                     </li>
                 {% endfor %}
             </ul>
