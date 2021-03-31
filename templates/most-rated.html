@@ -64,7 +64,7 @@
                   {%else%}
                   <td>No URL!</td>
                   {%endif%}
-                  <td>{{mr.rating}}</td>
+                  <td>{{'%0.2f'|format(mr.rating|float)}}</td>
                   <td>{{mr.genres|join(',') }}</td>
                   {%if mr.homepage is not none%}
                   <td><a href="{{(mr.homepage | string) }}">Link to the homepage</a></td>
