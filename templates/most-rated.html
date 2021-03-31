@@ -59,10 +59,18 @@
                 <td><a href="{{ '/tv-show/' + (mr.id | string) }}">{{ mr.title }}</a></th>
                   <td>{{mr.year}}</td>
                   <td>{{mr.runtime}}</td>
+                  {%if mr.trailer is not none%}
                   <td><a href="{{(mr.trailer | string) }}">Link to the youtube video</a></td>
+                  {%else%}
+                  <td>No URL!</td>
+                  {%endif%}
                   <td>{{mr.rating}}</td>
                   <td>{{mr.genres|join(',') }}</td>
+                  {%if mr.homepage is not none%}
                   <td><a href="{{(mr.homepage | string) }}">Link to the homepage</a></td>
+                  {%else%}
+                  <td>No URL!</td>
+                  {%endif%}
                 </tr>
                 {%endfor%}
            </table>        
