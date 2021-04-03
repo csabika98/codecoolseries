@@ -44,3 +44,11 @@ def list_emails():
 
 def list_usernames():
     return data_manager.execute_select("SELECT username from accounts")
+
+def search_shows(shows:str):
+    shows = f'%{shows}%'
+    return data_manager.execute_select("""
+    SELECT title
+    FROM shows
+    WHERE title LIKE (%(shows)s);
+    """, variables={'shows':shows})

@@ -13,7 +13,7 @@ deactivate() {
 
 # insert your database name, username (role), host ip and password
 # you can find the API key in the assignment description page in Curriculum
-MY_PSQL_DBNAME="seriespa"
+MY_PSQL_DBNAME="series-db"
 MY_PSQL_USER="postgres"
 MY_PSQL_HOST="localhost"
 MY_PSQL_PASSWORD="derank123"

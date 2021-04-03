@@ -8,6 +8,19 @@ from data import validation as validate
 app = Flask(__name__)
 app.secret_key = "derank123"
 
+
+
+@app.route("/search", methods=["GET"])
+def search():
+    all_shows = queries.get_shows()
+    search_result = request.args.get("find")
+    if request.method == "GET":
+        result = queries.search_shows(search_result)
+        print(result)
+    return render_template("search.html", result=result, all_shows=all_shows)
+   
+
+
 #CREATE API ROUTE TO MAKE POSSIBLE THE PAGINATION!
 @app.route('/api/most-rated/<int:page>')
 def api_route(page):

@@ -82,9 +82,9 @@
         </div>
         <div class="card">
             <ul>
-                {%for show in shows%}
+                {% for results in result%}
                     <li>
-                        <a href="{{ '/shows/' + (show['id'] | string) }}">{{ show["title"] }}</a>
+                        <a href="{{ '/shows/' + (results['id'] | string) }}">{{ results["title"] }}</a>
                     </li>
                 {%endfor%}
             </ul>
